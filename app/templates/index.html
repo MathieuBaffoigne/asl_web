@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASL web application</title>
+  <link rel="icon" href="{{ url_for('static', filename='./images/sign.png') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+
+<body class="flex flex-col min-h-screen justify-center items-center w-full">
+  <header class="bg-gray-800 text-white text-center h-20 w-full fixed top-0 flex flex-col justify-center">
+    <p class="text-xl">Petite web app de détection de signes</p>
+  </header>
+  <main class="flex flex-col justify-center items-center w-full h-full overflow-y-hidden">
+
+    <div class="flex flex-col lg:flex-row justify-center items-center w-full h-full gap-8">
+      <div class="flex flex-col items-center w-full max-w-md lg:max-w-2xl p-4">
+        <div class="flex justify-center items-center min-h-[240px]">
+          <img class="h-full w-full object-cover" src="{{ url_for('static', filename='images/asl_signs_old.png') }}"
+            alt="ASL Signs" />
+        </div>
+      </div>
+
+      <div class="w-10 lg:w-20"></div>
+
+      <div class="flex flex-col items-center w-full max-w-md lg:max-w-2xl p-4">
+        <div class="relative w-full max-w-3xl aspect-video">
+          <i
+            class="fas fa-spinner fa-spin text-4xl text-blue-700 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
+          <div class="flex justify-center items-center w-full h-full">
+            <video id="video" autoplay muted class="object-cover w-full h-full"></video>
+            <canvas id="canvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="{{url_for('static', filename='js/webcam.js')}}" defer></script>
+  </main>
+  <footer class="bg-gray-800 text-white p-4 h-16 w-full fixed bottom-0">
+    <p class="text-center">© 2024 ASL sign detection web application</p>
+  </footer>
+</body>
+
+</html>
