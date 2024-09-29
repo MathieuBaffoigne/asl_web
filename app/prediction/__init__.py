@@ -1,3 +1,32 @@
+"""
+Module de prétraitement et de prédiction pour les caractéristiques des waypoints.
+
+Ce module contient deux classes principales : `PreTreatment` et `Prediction`.
+
+- `PreTreatment` : Cette classe est responsable du calcul des caractéristiques géométriques à partir des waypoints,
+  y compris les angles et les distances.
+- `Prediction` : Cette classe utilise les caractéristiques calculées par `PreTreatment` pour prédire une classe
+  à l'aide d'un modèle de machine learning.
+
+Modules nécessaires :
+    - os
+    - pandas
+    - joblib
+    - numpy
+
+Variables globales :
+    - model_path (str) : Chemin vers le fichier du modèle de machine learning.
+    - model : Modèle de machine learning chargé à partir de `model_path`.
+    - class_names (list) : Liste des noms de classes possibles.
+
+Classes :
+    - PreTreatment : Classe pour le calcul des caractéristiques des waypoints.
+    - Prediction : Classe pour la prédiction de la classe à partir des caractéristiques.
+
+Fonctions :
+    - Aucune fonction globale définie dans ce module.
+"""
+
 import os
 
 import pandas as pd
@@ -34,7 +63,7 @@ class_names = [
 ]
 
 
-class Prediction:
+class PreTreatment:
     """
     Une classe pour gérer le calcul des caractéristiques des waypoints et prédire une classe à partir de ces caractéristiques.
 
@@ -126,8 +155,29 @@ class Prediction:
 
         return {"angles": angles, "distances": distances, "waypoints": waypoints}
 
-    @staticmethod
-    def predict_class_from_features(features):
+
+class Prediction:
+    """
+    Classe Prediction pour le prétraitement des données et la prédiction de la classe.
+
+    Attributes:
+        features (dict): Un dictionnaire contenant les caractéristiques des waypoints, des angles et des distances.
+
+    Methods:
+        __init__(self, features): Initialise l'objet Prediction avec les caractéristiques données.
+        predict_class_from_features(self): Prédit la classe à partir des caractéristiques des waypoints, des angles et des distances.
+    """
+
+    def __init__(self, features) -> None:
+        """
+        Initialise l'objet Prediction avec les caractéristiques données.
+
+        Args:
+            features (dict): Un dictionnaire contenant les caractéristiques des waypoints, des angles et des distances.
+        """
+        self.features = features
+
+    def predict_class_from_features(self):
         """
         Prédire la classe à partir des caractéristiques des waypoints, des angles et des distances.
 
@@ -144,9 +194,9 @@ class Prediction:
             correspondant à l'index de la prédiction.
         """
 
-        waypoints = features["waypoints"]
-        angles = features["angles"]
-        distances = features["distances"]
+        waypoints = self.features["waypoints"]
+        angles = self.features["angles"]
+        distances = self.features["distances"]
 
         angles_dict = {f"angle_{i}": value for i, value in enumerate(angles)}
         distances_dict = {f"dist_{i}": value for i, value in enumerate(distances)}
